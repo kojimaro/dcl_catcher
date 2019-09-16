@@ -1,4 +1,6 @@
 import utils from "../node_modules/decentraland-ecs-utils/index"
+import { items, ItemData, spawner } from "./modules/items";
+import { positions } from "./modules/positions";
 
 var isStraight = false
 var isRight    = false
@@ -67,21 +69,6 @@ function spawnCatcher() {
 
     engine.addEntity(catcher)
     return catcher
-}
-
-function spawnSphere() {
-    const sphere = new Entity()
-    sphere.addComponent(new SphereShape())
-
-    const transform = new Transform()
-    transform.position.set(6, 1, 8)
-    transform.scale.set(0.5, 0.5, 0.5)
-    sphere.addComponent(transform)
-    
-    sphere.addComponent(new Material())
-    sphere.getComponent(Material).albedoColor = Color3.Yellow()
-
-    engine.addEntity(sphere)
 }
 
 function spawnStraightBtn () {
@@ -160,7 +147,6 @@ function spawnCatchBtn() {
 }
 
 const catcher = spawnCatcher()
-const sphere = spawnSphere()
 const straightBtn  = spawnStraightBtn ()
 const slideBtn = spawnSlideBtn()
 const catchBtn = spawnCatchBtn()
@@ -168,3 +154,11 @@ const catchBtn = spawnCatchBtn()
 addLabel("Straight", straightBtn)
 addLabel("Right", slideBtn)
 addLabel("Catch", catchBtn)
+
+for (let position of positions) {
+    spawner.spawnEntity(position.x, position.y, position.z)
+}
+
+for (let item of items.entities) {
+    log(item.getComponent(Transform).position)
+}
