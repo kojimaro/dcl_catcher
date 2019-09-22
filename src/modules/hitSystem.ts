@@ -1,6 +1,6 @@
-import { items } from "./items";
+import { items, ItemData } from "./items";
 
-export class catcherSystem {
+export class hitSystem {
     catcher: IEntity
     constructor(catcher: IEntity) {
         this.catcher = catcher
@@ -18,6 +18,7 @@ export class catcherSystem {
             if (startX <= catcherX && catcherX < endX) {
                 if (startZ <= catcherZ && catcherZ < endZ) {
                     item.getComponent(Material).albedoColor = Color3.Red()
+                    item.getComponent(ItemData).isHit = true
                 } else {
                     item.getComponent(Material).albedoColor = Color3.Yellow()
                 }
