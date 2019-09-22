@@ -12,7 +12,6 @@ export class TimerSystem {
         } else {
             let time = this.time--
             this.timeLabel.value = "TIME: " + time.toString()
-            
         }
     }
 }
