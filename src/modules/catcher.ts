@@ -1,5 +1,3 @@
-import { catcherSystem } from "./catcherSystem"
-
 export function spawnCatcher() {
     const catcher = new Entity()
     catcher.addComponent(new ConeShape())
