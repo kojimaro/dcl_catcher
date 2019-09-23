@@ -21,9 +21,11 @@ export class hitSystem {
                     item.getComponent(ItemData).isHit = true
                 } else {
                     item.getComponent(Material).albedoColor = Color3.Yellow()
+                    item.getComponent(ItemData).isHit = false
                 }
             } else {
                 item.getComponent(Material).albedoColor = Color3.Yellow()
+                item.getComponent(ItemData).isHit = false
             }
         }
     }
