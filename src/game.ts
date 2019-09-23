@@ -1,46 +1,12 @@
-import utils from "../node_modules/decentraland-ecs-utils/index"
-import { items, ItemData, spawner } from "./modules/items";
-import { spawnCatcher } from "./modules/catcher";
+import { spawner } from "./modules/items";
+import { spawnCatcher, spawnStraightBtn, spawnRightBtn, MoveForward, MoveRight } from "./modules/catcher";
 import { positions } from "./modules/positions";
-import { catcherSystem } from "./modules/catcherSystem";
+import { hitSystem } from "./modules/hitSystem";
+import { spawnDownBtn, Down } from "./modules/downBtn";
+import { GameData } from "./modules/gameData"
+import { CountSystem } from "./modules/counter"
 
-var isStraight = false
-var isRight    = false
-var isCatch    = false
-
-class MoveForward {
-    update() {
-        if (isStraight && !isRight) {
-            let transform = catcher.getComponent(Transform)
-            let distance = Vector3.Forward().scale(0.1)
-            transform.translate(distance)
-        }
-    }
-}
-engine.addSystem(new MoveForward())
-
-class MoveRight {
-    update() {
-        if (!isStraight && isRight) {
-            let transform = catcher.getComponent(Transform)
-            let distance = Vector3.Right().scale(0.1)
-            transform.translate(distance)
-        }
-    }
-}
-engine.addSystem(new MoveRight())
-
-class Catch {
-    update() {
-        if (!isStraight && !isRight && isCatch) {
-            let transform = catcher.getComponent(Transform)
-            let distance = Vector3.Down().scale(0.1)
-            transform.translate(distance)
-        }
-    }
-}
-engine.addSystem(new Catch())
-
+export var gameData = new GameData()
 
 let textOffset = new Transform({
     position: new Vector3(0, 1, 0)
@@ -58,92 +24,68 @@ function addLabel(text: string, parent: IEntity){
 	engine.addEntity(label)
 }
 
-function spawnStraightBtn () {
-    const straightBtn  = new Entity()
-    straightBtn.addComponent(new PlaneShape())
+function spawnStartBtn () {
+    const startBtn  = new Entity()
+    startBtn.addComponent(new PlaneShape())
 
     const transform = new Transform()
-    transform.position.set(2, 1, 3)
-    straightBtn.addComponent(transform)
+    transform.position.set(1, 1, 1)
+    startBtn.addComponent(transform)
     
-    straightBtn.addComponent(new Material())
-    straightBtn.getComponent(Material).albedoColor = Color3.Teal()
+    startBtn.addComponent(new Material())
+    startBtn.getComponent(Material).albedoColor = Color3.Teal()
 
-    straightBtn.addComponent(
+    startBtn.addComponent(
         new OnPointerDown(e => {
-            if (isStraight) {
-                isStraight = false
-            } else {
-                isStraight = true
-            }
+            init()
         })
     )
-
-    engine.addEntity(straightBtn )
-    return straightBtn 
+    return startBtn 
 }
 
-function spawnSlideBtn() {
-    const slideBtn = new Entity()
-    slideBtn.addComponent(new PlaneShape())
-
-    const transform = new Transform()
-    transform.position.set(4, 1, 3)
-    slideBtn.addComponent(transform)
-    
-    slideBtn.addComponent(new Material())
-    slideBtn.getComponent(Material).albedoColor = Color3.Magenta()
-
-    slideBtn.addComponent(
-        new OnPointerDown(e => {
-            if (isRight) {
-                isRight = false
-            } else {
-                isRight = true
-            }
-        })
-    )
-
-    engine.addEntity(slideBtn)
-    return slideBtn
+function init() {
+    gameData.score = 0
+    gameData.count = 9
+    gameData.canStraight = true
 }
 
-function spawnCatchBtn() {
-    const catchBtn = new Entity()
-    catchBtn.addComponent(new PlaneShape())
+const canvas = new UICanvas()
+const scoreLabel = new UIText(canvas)
+scoreLabel.value = 'SCORE: 0'
+scoreLabel.fontSize = 25
+scoreLabel.width = 120
+scoreLabel.height = 50
+scoreLabel.vAlign = 'top'
+scoreLabel.hAlign = 'center'
 
-    const transform = new Transform()
-    transform.position.set(6, 1, 3)
-    catchBtn.addComponent(transform)
-    
-    catchBtn.addComponent(new Material())
-    catchBtn.getComponent(Material).albedoColor = Color3.Magenta()
+const timeCanvas = new UICanvas()
+const countLabel = new UIText(timeCanvas)
+countLabel.value = 'TIME: 100'
+countLabel.fontSize = 25
+countLabel.width = 120
+countLabel.height = 50
+countLabel.vAlign = 'top'
+countLabel.hAlign = 'right'
+countLabel.paddingRight = 5
+countLabel.positionX = -80
 
-    catchBtn.addComponent(
-        new OnPointerDown(e => {
-            if (isCatch) {
-                isCatch = false
-            } else {
-                isCatch = true
-            }
-        })
-    )
+const catcher     = engine.addEntity(spawnCatcher())
+const startBtn    = engine.addEntity(spawnStartBtn())
+const straightBtn = engine.addEntity(spawnStraightBtn(gameData))
+const rightBtn    = engine.addEntity(spawnRightBtn(gameData))
+const downBtn     = engine.addEntity(spawnDownBtn(gameData, catcher))
 
-    engine.addEntity(catchBtn)
-    return catchBtn
-}
-
-const catcher = engine.addEntity(spawnCatcher())
-const straightBtn  = spawnStraightBtn ()
-const slideBtn = spawnSlideBtn()
-const catchBtn = spawnCatchBtn()
-
-engine.addSystem(new catcherSystem(catcher))
-
-addLabel("Straight", straightBtn)
-addLabel("Right", slideBtn)
-addLabel("Catch", catchBtn)
+addLabel("GameStart", startBtn)
+addLabel("1", straightBtn)
+addLabel("2", rightBtn)
+addLabel("3", downBtn)
 
 for (let position of positions) {
     spawner.spawnEntity(position.x, position.y, position.z)
 }
+
+engine.addSystem(new MoveForward(gameData, catcher))
+engine.addSystem(new MoveRight(gameData, catcher))
+engine.addSystem(new hitSystem(catcher))
+engine.addSystem(new Down(catcher, gameData, scoreLabel))
+engine.addSystem(new CountSystem(gameData, countLabel))
