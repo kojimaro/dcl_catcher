@@ -2,7 +2,7 @@ const MAX_ITEMS = 4
 
 @Component('itemData')
 export class ItemData {
-    isCatch: boolean
+    isHit: boolean
     score: number
 }
 
@@ -21,7 +21,7 @@ export const spawner = {
 
         // Add a transform component to the entity
         let t = ent.getComponentOrCreate(ItemData)
-        t.isCatch = false
+        t.isHit = false
         t.score = 100
 
         const transform = new Transform()
