@@ -7,7 +7,7 @@ export function spawnDownBtn(gameData, catcher) {
     catchBtn.addComponent(new PlaneShape())
 
     const transform = new Transform()
-    transform.position.set(9, 2.5, 6)
+    transform.position.set(9, 1.8, 6)
     catchBtn.addComponent(transform)
     
     catchBtn.addComponent(new Material())
@@ -20,7 +20,7 @@ export function spawnDownBtn(gameData, catcher) {
 
     catchBtn.addComponent(
         new OnPointerDown(e => {
-            if (gameData.canDown && gameData.count !== 0) {
+            if (gameData.canDown) {
                 if (gameData.isDown) {
                     returnCatcher(catcher, gameData, catchBtn)
                 } else {
@@ -29,8 +29,6 @@ export function spawnDownBtn(gameData, catcher) {
 
                     catchBtn.getComponent(TextShape).value = "Return"
                 }
-            } else if(gameData.count === 0) {
-                returnCatcher(catcher, gameData, catchBtn)
             }
         })
     )
@@ -71,7 +69,7 @@ function removeEntity(scoreLabel, gameData) {
 
 function updateScore(scoreLabel, score, gameData) {
     gameData.score += score 
-    scoreLabel.value = gameData.score.toString()
+    scoreLabel.value = "SCORE: " + gameData.score.toString()
 }
 
 function returnCatcher(catcher, gameData, catchBtn) {
@@ -79,9 +77,13 @@ function returnCatcher(catcher, gameData, catchBtn) {
     gameData.canDown = false
 
     let startPos = catcher.getComponent(Transform).position
-    let endPos = new Vector3(2, 3, 9)
+    let endPos = new Vector3(2, 2, 9)
     catcher.addComponent(new utils.MoveTransformComponent(startPos, endPos, 1, () => {
-        gameData.canStraight = true
+        if (gameData.count === 0) {
+            gameData.canStraight = false
+        } else {
+            gameData.canStraight = true
+        }
         catchBtn.getComponent(TextShape).value = "Down"
     }))
 }

@@ -10,7 +10,7 @@ export function spawnCatcher() {
     catcher.addComponentOrReplace(gltfShape_2)
 
     const transform = new Transform()
-    transform.position.set(2, 3, 9)
+    transform.position.set(2, 2, 9)
     transform.rotation.eulerAngles = new Vector3(0, 180, 0)
     catcher.addComponent(transform)
     
@@ -25,7 +25,7 @@ export function spawnStraightBtn (gameData) {
     straightBtn.addComponent(new PlaneShape())
 
     const transform = new Transform()
-    transform.position.set(5, 2.5, 6)
+    transform.position.set(5, 1.8, 6)
     straightBtn.addComponent(transform)
     
     straightBtn.addComponent(new Material())
@@ -60,7 +60,7 @@ export function spawnRightBtn(gameData) {
     rightBtn.addComponent(new PlaneShape())
 
     const transform = new Transform()
-    transform.position.set(7, 2.5, 6)
+    transform.position.set(7, 1.8, 6)
     rightBtn.addComponent(transform)
     
     rightBtn.addComponent(new Material())
