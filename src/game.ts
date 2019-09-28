@@ -62,6 +62,7 @@ function init() {
     gameData.canRight    = false
     gameData.canDown     = false
     scoreLabel.value     = 'SCORE: 0'
+    countLabel.color     = Color4.White()
 
     let startPos = catcher.getComponent(Transform).position
     let endPos = new Vector3(2, 2, 8)
