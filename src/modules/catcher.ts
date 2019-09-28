@@ -99,6 +99,9 @@ export class MoveForward {
     }
     update() {
         if (this.game.isStraight && this.game.canStraight) {
+            if (this.catcher.getComponent(Transform).position.z > 15) {
+                this.catcher.getComponent(Transform).position.z = 9
+            }
             let transform = this.catcher.getComponent(Transform)
             let distance = Vector3.Forward().scale(SPEED)
             transform.translate(distance)
@@ -115,6 +118,9 @@ export class MoveRight {
     }
     update() {
         if (this.game.isRight && this.game.canRight) {
+            if (this.catcher.getComponent(Transform).position.x > 14) {
+                this.catcher.getComponent(Transform).position.x = 2
+            }
             let transform = this.catcher.getComponent(Transform)
             let distance = Vector3.Right().scale(SPEED)
             transform.translate(distance)
