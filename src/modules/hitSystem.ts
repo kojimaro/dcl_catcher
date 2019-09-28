@@ -17,14 +17,11 @@ export class hitSystem {
 
             if (startX <= catcherX && catcherX < endX) {
                 if (startZ <= catcherZ && catcherZ < endZ) {
-                    item.getComponent(Material).albedoColor = Color3.Red()
                     item.getComponent(ItemData).isHit = true
                 } else {
-                    item.getComponent(Material).albedoColor = Color3.Yellow()
                     item.getComponent(ItemData).isHit = false
                 }
             } else {
-                item.getComponent(Material).albedoColor = Color3.Yellow()
                 item.getComponent(ItemData).isHit = false
             }
         }

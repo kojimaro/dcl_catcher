@@ -1,11 +1,11 @@
 import { spawner } from "./modules/items";
 import { spawnCatcher, spawnStraightBtn, spawnRightBtn, MoveForward, MoveRight } from "./modules/catcher";
-import { positions } from "./modules/positions";
 import { hitSystem } from "./modules/hitSystem";
 import { spawnDownBtn, Down } from "./modules/downBtn";
 import { GameData } from "./modules/gameData"
 import { CountSystem } from "./modules/counter"
 import { ButtonSystem } from "./modules/buttonSystem"
+import { getRandomInt } from "./modules/utils"
 
 export var gameData = new GameData()
 
@@ -49,6 +49,15 @@ function init() {
     gameData.score = 0
     gameData.count = 9
     gameData.canStraight = true
+
+    for (var i = 0; i < 9; i++) {
+        spawner.spawnEntity(
+            getRandomInt(1, 3),
+            getRandomInt(4, 13), 
+            0, 
+            getRandomInt(10, 14)
+        )
+    }
 }
 
 const canvas = new UICanvas()
@@ -79,10 +88,6 @@ const downBtn     = engine.addEntity(spawnDownBtn(gameData, catcher))
 
 addLabel("GameStart", startBtn)
 
-for (let position of positions) {
-    spawner.spawnEntity(position.x, position.y, position.z)
-}
-
 engine.addSystem(new MoveForward(gameData, catcher))
 engine.addSystem(new MoveRight(gameData, catcher))
 engine.addSystem(new hitSystem(catcher))
@@ -102,17 +107,6 @@ const transform_2 = new Transform({
 })
 groundFloorSciFi_02.addComponentOrReplace(transform_2)
 engine.addEntity(groundFloorSciFi_02)
-
-/*const plantSF_13 = new Entity()
-const gltfShape_3 = new GLTFShape('models/PlantSF_13/PlantSF_13.glb')
-plantSF_13.addComponentOrReplace(gltfShape_3)
-const transform_4 = new Transform({
-  position: new Vector3(2.5, 0, 6),
-  rotation: new Quaternion(0, 0, 0, 1),
-  scale: new Vector3(1, 1, 1)
-})
-plantSF_13.addComponentOrReplace(transform_4)
-engine.addEntity(plantSF_13)*/
 
 const dock_Ramp_01 = new Entity()
 const gltfShape_5 = new GLTFShape('models/Dock_Ramp_01/Dock_Ramp_01.glb')

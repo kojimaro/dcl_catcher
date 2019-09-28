@@ -10,10 +10,10 @@ export const items = engine.getComponentGroup(ItemData)
 
 // Define spawner singleton object
 export const spawner = {
-    MAX_POOL_SIZE: 4,
+    MAX_POOL_SIZE: 9,
     pool: [] as Entity[],
 
-    spawnEntity(x: number, y: number, z: number) {
+    spawnEntity(itemKey: number, x: number, y: number, z: number) {
         // Get an entity from the pool
         const ent = spawner.getEntityFromPool()
 
@@ -22,16 +22,20 @@ export const spawner = {
         // Add a transform component to the entity
         let t = ent.getComponentOrCreate(ItemData)
         t.isHit = false
-        t.score = 100
+        t.score = 1
 
         const transform = new Transform()
         transform.position.set(x, y, z)
         transform.scale.set(0.5, 0.5, 0.5)
         ent.addComponent(transform)
 
-        ent.addComponent(new Material())
-        ent.getComponent(Material).albedoColor = Color3.Yellow()
-        ent.addComponent(new SphereShape())
+        if (itemKey === 1) {
+            const gltfShape_3 = new GLTFShape('models/PlantSF_13/PlantSF_13.glb')
+            ent.addComponentOrReplace(gltfShape_3)
+        } else if (itemKey === 2) {
+            const gltfShape_3 = new GLTFShape('models/PlantSF_09/PlantSF_09.glb')
+            ent.addComponentOrReplace(gltfShape_3)
+        }
 
         //add entity to engine
         engine.addEntity(ent)
