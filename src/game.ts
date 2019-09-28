@@ -5,6 +5,7 @@ import { hitSystem } from "./modules/hitSystem";
 import { spawnDownBtn, Down } from "./modules/downBtn";
 import { GameData } from "./modules/gameData"
 import { CountSystem } from "./modules/counter"
+import { ButtonSystem } from "./modules/buttonSystem"
 
 export var gameData = new GameData()
 
@@ -87,6 +88,7 @@ engine.addSystem(new MoveRight(gameData, catcher))
 engine.addSystem(new hitSystem(catcher))
 engine.addSystem(new Down(catcher, gameData, scoreLabel))
 engine.addSystem(new CountSystem(gameData, countLabel))
+engine.addSystem(new ButtonSystem(gameData, straightBtn, rightBtn, downBtn))
 
 
 /** generate */

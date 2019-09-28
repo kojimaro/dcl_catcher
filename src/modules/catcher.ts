@@ -1,6 +1,6 @@
 import { GameData } from "./gameData";
 
-const SPEED = 0.4
+const SPEED = 0.2
 
 export function spawnCatcher() {
     const catcher = new Entity()
@@ -10,7 +10,7 @@ export function spawnCatcher() {
     catcher.addComponentOrReplace(gltfShape_2)
 
     const transform = new Transform()
-    transform.position.set(2, 4, 7)
+    transform.position.set(2, 3, 9)
     transform.rotation.eulerAngles = new Vector3(0, 180, 0)
     catcher.addComponent(transform)
     

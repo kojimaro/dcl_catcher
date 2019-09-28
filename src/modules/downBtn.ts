@@ -79,7 +79,7 @@ function returnCatcher(catcher, gameData, catchBtn) {
     gameData.canDown = false
 
     let startPos = catcher.getComponent(Transform).position
-    let endPos = new Vector3(7, 3, 7)
+    let endPos = new Vector3(2, 3, 9)
     catcher.addComponent(new utils.MoveTransformComponent(startPos, endPos, 1, () => {
         gameData.canStraight = true
         catchBtn.getComponent(TextShape).value = "Down"
