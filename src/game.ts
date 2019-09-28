@@ -20,7 +20,7 @@ function addLabel(text: string, parent: IEntity){
 	label.addComponent(textOffset)
 	label.addComponent(new TextShape(text))
 	label.getComponent(TextShape).fontSize = 3
-	label.getComponent(TextShape).color = Color3.Black()
+    label.getComponent(TextShape).color = Color3.Blue()
 	
 	engine.addEntity(label)
 }
@@ -37,8 +37,13 @@ function spawnStartBtn () {
     const gltfShape_8 = new GLTFShape('models/Computer_01/Computer_01.glb')
     startBtn.addComponentOrReplace(gltfShape_8)
 
+    const clip = new AudioClip('sounds/robot-startup2.mp3')
+    const source = new AudioSource(clip)
+    startBtn.addComponent(source)
+
     startBtn.addComponent(
         new OnPointerDown(e => {
+            source.playing = true
             init()
         })
     )
