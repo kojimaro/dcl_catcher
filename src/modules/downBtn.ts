@@ -18,9 +18,15 @@ export function spawnDownBtn(gameData, catcher) {
     label.zIndex = 5
     catchBtn.addComponent(label);
 
+    const clip = new AudioClip('sounds/switch1.mp3')
+    const source = new AudioSource(clip)
+    catchBtn.addComponent(source)
+
     catchBtn.addComponent(
         new OnPointerDown(e => {
             if (gameData.canDown) {
+                source.playOnce()
+
                 if (gameData.isDown) {
                     returnCatcher(catcher, gameData, catchBtn)
                 } else {

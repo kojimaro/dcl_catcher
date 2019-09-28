@@ -36,9 +36,15 @@ export function spawnStraightBtn (gameData) {
     label.zIndex = 5
     straightBtn.addComponent(label);
 
+    const clip = new AudioClip('sounds/switch1.mp3')
+    const source = new AudioSource(clip)
+    straightBtn.addComponent(source)
+
     straightBtn.addComponent(
         new OnPointerDown(e => {
             if (gameData.canStraight && gameData.count !== 0) {
+                source.playOnce()
+
                 if (gameData.isStraight) {
                     gameData.isStraight  = false
                     gameData.canStraight = false
@@ -71,9 +77,15 @@ export function spawnRightBtn(gameData) {
     label.zIndex = 5
     rightBtn.addComponent(label);
 
+    const clip = new AudioClip('sounds/switch1.mp3')
+    const source = new AudioSource(clip)
+    rightBtn.addComponent(source)
+
     rightBtn.addComponent(
         new OnPointerDown(e => {
             if(gameData.canRight && gameData.count !== 0) {
+                source.playOnce()
+
                 if (gameData.isRight) {
                     gameData.isRight  = false
                     gameData.canRight = false

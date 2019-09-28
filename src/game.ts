@@ -45,7 +45,7 @@ function spawnStartBtn () {
 
     startBtn.addComponent(
         new OnPointerDown(e => {
-            source.playing = true
+            source.playOnce()
             init()
         })
     )
