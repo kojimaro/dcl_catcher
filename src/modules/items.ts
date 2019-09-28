@@ -55,5 +55,9 @@ export const spawner = {
             return instance
         }
         return null
+    },
+
+    removeEntity() {
+        spawner.pool = [] as Entity[]
     }
 }

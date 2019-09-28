@@ -77,7 +77,7 @@ function returnCatcher(catcher, gameData, catchBtn) {
     gameData.canDown = false
 
     let startPos = catcher.getComponent(Transform).position
-    let endPos = new Vector3(2, 2, 9)
+    let endPos = new Vector3(2, 2, 8)
     catcher.addComponent(new utils.MoveTransformComponent(startPos, endPos, 1, () => {
         if (gameData.count === 0) {
             gameData.canStraight = false

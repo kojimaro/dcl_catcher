@@ -10,7 +10,7 @@ export function spawnCatcher() {
     catcher.addComponentOrReplace(gltfShape_2)
 
     const transform = new Transform()
-    transform.position.set(2, 2, 9)
+    transform.position.set(2, 0, 11)
     transform.rotation.eulerAngles = new Vector3(0, 180, 0)
     catcher.addComponent(transform)
     
@@ -118,7 +118,7 @@ export class MoveRight {
     }
     update() {
         if (this.game.isRight && this.game.canRight) {
-            if (this.catcher.getComponent(Transform).position.x > 14) {
+            if (this.catcher.getComponent(Transform).position.x > 15) {
                 this.catcher.getComponent(Transform).position.x = 2
             }
             let transform = this.catcher.getComponent(Transform)

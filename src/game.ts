@@ -1,3 +1,4 @@
+import utils from "../node_modules/decentraland-ecs-utils/index"
 import { spawner } from "./modules/items";
 import { spawnCatcher, spawnStraightBtn, spawnRightBtn, MoveForward, MoveRight } from "./modules/catcher";
 import { hitSystem } from "./modules/hitSystem";
@@ -6,6 +7,7 @@ import { GameData } from "./modules/gameData"
 import { CountSystem } from "./modules/counter"
 import { ButtonSystem } from "./modules/buttonSystem"
 import { getRandomInt } from "./modules/utils"
+import { items } from "./modules/items";
 
 export var gameData = new GameData()
 
@@ -51,16 +53,31 @@ function spawnStartBtn () {
 }
 
 function init() {
-    gameData.score = 0
-    gameData.count = 9
+    gameData.score       = 0
+    gameData.count       = 9
+    gameData.isStraight  = false
+    gameData.isRight     = false
+    gameData.isDown      = false
     gameData.canStraight = true
+    gameData.canRight    = false
+    gameData.canDown     = false
+    scoreLabel.value     = 'SCORE: 0'
 
-    for (var i = 0; i < 9; i++) {
+    let startPos = catcher.getComponent(Transform).position
+    let endPos = new Vector3(2, 2, 8)
+    catcher.addComponent(new utils.MoveTransformComponent(startPos, endPos, 0.1))
+
+    while (items.entities.length) {
+        engine.removeEntity(items.entities[0])
+    }
+    spawner.removeEntity()
+
+    for (var i = 0; i < 10; i++) {
         spawner.spawnEntity(
             getRandomInt(1, 3),
-            getRandomInt(4, 13), 
+            getRandomInt(4, 15), 
             0, 
-            getRandomInt(10, 14)
+            getRandomInt(9, 15)
         )
     }
 }
