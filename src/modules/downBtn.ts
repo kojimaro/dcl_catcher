@@ -7,11 +7,11 @@ export function spawnDownBtn(gameData, catcher) {
     catchBtn.addComponent(new PlaneShape())
 
     const transform = new Transform()
-    transform.position.set(6, 1, 3)
+    transform.position.set(9, 2.5, 6)
     catchBtn.addComponent(transform)
     
     catchBtn.addComponent(new Material())
-    catchBtn.getComponent(Material).albedoColor = Color3.Magenta()
+    catchBtn.getComponent(Material).albedoColor = Color3.Gray()
 
     const label = new TextShape("Down")
     label.fontSize = 2
@@ -79,7 +79,7 @@ function returnCatcher(catcher, gameData, catchBtn) {
     gameData.canDown = false
 
     let startPos = catcher.getComponent(Transform).position
-    let endPos = new Vector3(2, 3, 5)
+    let endPos = new Vector3(7, 3, 7)
     catcher.addComponent(new utils.MoveTransformComponent(startPos, endPos, 1, () => {
         gameData.canStraight = true
         catchBtn.getComponent(TextShape).value = "Down"
