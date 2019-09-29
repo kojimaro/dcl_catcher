@@ -10,7 +10,7 @@ export const items = engine.getComponentGroup(ItemData)
 
 // Define spawner singleton object
 export const spawner = {
-    MAX_POOL_SIZE: 9,
+    MAX_POOL_SIZE: 2,
     pool: [] as Entity[],
 
     spawnEntity(itemKey: number, x: number, y: number, z: number) {

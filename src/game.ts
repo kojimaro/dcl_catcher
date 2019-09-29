@@ -73,7 +73,7 @@ function init() {
     }
     spawner.removeEntity()
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 3; i++) {
         spawner.spawnEntity(
             getRandomInt(1, 3),
             getRandomInt(4, 15), 
